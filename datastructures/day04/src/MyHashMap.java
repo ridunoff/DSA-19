@@ -50,10 +50,9 @@ public class MyHashMap<K, V> implements Map<K, V> {
      * given a key, return the bucket where the `K, V` pair would be stored if it were in the map.
      */
     private LinkedList<Entry> chooseBucket(Object key) {
-        // TODO
         // hint: use key.hashCode() to calculate the key's hashCode using its built in hash function
         // then use % to choose which bucket to return.
-        return null;
+        return buckets[key.hashCode() % buckets.length];
     }
 
     @Override
@@ -71,7 +70,25 @@ public class MyHashMap<K, V> implements Map<K, V> {
      */
     @Override
     public boolean containsKey(Object key) {
-        // TODO
+        //Set<K> keys = keySet();
+        //for(int i=0; i<size(); i++){
+        //    if(keys[i].equals(key))return true;
+       // }
+//        if(get(key) == null && key != null){ //something with .equals
+//            return false;
+//        }
+//        return true;
+
+
+        LinkedList<Entry> bucket = chooseBucket(key);
+        Entry temp = null;
+        if(size==0)return false;
+        for(int i=0; i<bucket.size();i++){
+            temp = bucket.get(i);
+            if(temp.key.equals(key)){
+                return true;
+            }
+        }
         return false;
     }
 
@@ -80,13 +97,39 @@ public class MyHashMap<K, V> implements Map<K, V> {
      */
     @Override
     public boolean containsValue(Object value) {
-        // TODO
+        LinkedList<Entry> bucket;
+        Entry temp = null;
+
+        for(int j=0;j<buckets.length;j++){
+            bucket = buckets[j];
+            if(size==0)return false;
+            for(int i=0; i<bucket.size();i++){
+                temp = bucket.get(i);
+                if(value == null && temp.value==null) return true;
+                if(temp.value == null) continue;
+                if(temp.value.equals(value)){
+                    return true;
+                }
+            }
+        }
         return false;
+
     }
 
     @Override
     public V get(Object key) {
-        // TODO
+        LinkedList<Entry> bucket = chooseBucket(key);
+        Entry temp = null;
+
+        if(size==0)return null;
+        for(int i=0; i<bucket.size();i++){
+            temp = bucket.get(i);
+            System.out.println(temp.value);
+            if(temp.key.equals(key)){
+
+                return temp.value;
+            }
+        }
         return null;
     }
 
@@ -99,7 +142,20 @@ public class MyHashMap<K, V> implements Map<K, V> {
         // TODO: Complete this method
         // hint: use chooseBucket() to determine which bucket to place the pair in
         // hint: use rehash() to appropriately grow the hashmap if needed
-        return null;
+        V oldValue = null;
+        LinkedList<Entry> bucket = chooseBucket(key);
+        if(containsKey(key)) {
+            oldValue = remove(key);
+        }
+        Entry newNode = new Entry(key,value);
+        bucket.add(newNode);
+        size++;
+        if(buckets.length <= size * ALPHA){
+            rehash(GROWTH_FACTOR);
+            //System.out.println(buckets.length);
+            //System.out.println(size);
+        }
+        return oldValue;
     }
 
     /**
@@ -112,7 +168,19 @@ public class MyHashMap<K, V> implements Map<K, V> {
         // TODO
         // hint: use chooseBucket() to determine which bucket the key would be
         // hint: use rehash() to appropriately grow the hashmap if needed
-        return null;
+        LinkedList<Entry> bucket = chooseBucket(key);
+        Entry temp = null;
+        for(int i=0; i<bucket.size();i++){
+            temp = bucket.get(i);
+            if(temp.key.equals(key)){
+                bucket.remove(temp);
+            }
+        }
+        size--;
+        if(buckets.length * BETA > size && buckets.length>MIN_BUCKETS){
+            rehash(SHRINK_FACTOR);
+        }
+        return temp.value;
     }
 
     @Override
@@ -130,6 +198,38 @@ public class MyHashMap<K, V> implements Map<K, V> {
     private void rehash(double growthFactor) {
         // TODO
         // hint: once you have removed all values from the buckets, use put(k, v) to add them back in the correct place
+        int newSize;
+        int oldSize;
+        LinkedList<Entry> bucket;
+        Entry temp;
+
+
+        if(MIN_BUCKETS<=buckets.length){
+
+            newSize = (int)(buckets.length * growthFactor);
+            oldSize = buckets.length;
+            //System.out.println("old Size"+oldSize+" newSize "+ newSize);
+            LinkedList<Entry>[] oldBuckets = buckets;
+            LinkedList<Entry> oldBucket;
+
+            if(newSize<MIN_BUCKETS){
+                newSize = 16;
+            }
+
+            initBuckets(newSize);
+            size=0;
+
+            for(int i=0; i<oldSize;i++){ //for each of the buckets in the old array
+                oldBucket = oldBuckets[i];
+
+                for(int j=0;j<oldBucket.size();j++){ //for each of the elements in the bucket
+                    temp = oldBucket.get(j);
+                    put(temp.key, temp.value);
+                }
+
+            }
+        }
+
     }
 
     private void initBuckets(int size) {

@@ -94,4 +94,19 @@ public class MyArrayListTest {
         assertEquals(new Cow("Cow996", 996, "Color996"),resizeCows.get(996));
     }
 
+
+    @Test
+    public void testShrink(){
+        cows.add(JAQUAN);
+        cows.add(LEGOS);
+        cows.remove(2);
+        cows.remove(2);
+        cows.remove(2);
+        cows.remove(1);
+        cows.remove(1);
+
+
+        assertEquals(1, cows.size());
+
+    }
 }

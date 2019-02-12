@@ -7,12 +7,12 @@ import your_code.Chicken;
 import your_code.MyLinkedList;
 
 public class MyLinkedListTest {
-    private static final Chicken DELILAH = new Chicken("Delilah", 10, "blue");
-    private static final Chicken GEORGY = new Chicken("Georgy", 8, "green");
-    private static final Chicken LILY = new Chicken("Lily", 4, "yellow");
-    private static final Chicken JIMI = new Chicken("Jimi", 13, "black");
-    private static final Chicken JAQUAN = new Chicken("Jaquan", 10, "transparent");
-    private static final Chicken LEGOS = new Chicken("Legos", 400, "rainbow");
+    private static final Chicken DELILAH = new Chicken("DELILAH", 10, "blue");
+    private static final Chicken GEORGY = new Chicken("GEORGY", 8, "green");
+    private static final Chicken LILY = new Chicken("LILY", 4, "yellow");
+    private static final Chicken JIMI = new Chicken("JIMI", 13, "black");
+    private static final Chicken JAQUAN = new Chicken("JAQUAN", 10, "transparent");
+    private static final Chicken LEGOS = new Chicken("LEGOS", 400, "rainbow");
 
     private MyLinkedList chickens;
     private MyLinkedList emptyChickens;    
@@ -21,7 +21,7 @@ public class MyLinkedListTest {
     public void setUp() throws Exception {
         chickens = new MyLinkedList();
         emptyChickens = new MyLinkedList();
-
+;
         chickens.add(DELILAH);
         chickens.add(GEORGY);
         chickens.add(LILY);
@@ -85,6 +85,7 @@ public class MyLinkedListTest {
         assertEquals(LILY, emptyChickens.get(0));
         assertEquals(2, emptyChickens.size());
     }
+
 
     @Test
     public void testRemove() {

@@ -6,6 +6,7 @@ public class Chicken {
     int age;
     String color;
 
+
     public Chicken(String name, int age, String color){
         this.name = name;
         this.age = age;

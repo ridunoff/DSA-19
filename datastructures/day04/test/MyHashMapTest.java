@@ -20,6 +20,7 @@ public class MyHashMapTest {
     @BeforeEach
     public void setUp() throws Exception {
         map = new MyHashMap<>();
+        //System.out.println("hello");
         map.put("Billy", 1);
         map.put("Milly", 2);
         map.put("Dilly", 3);
