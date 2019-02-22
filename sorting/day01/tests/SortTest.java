@@ -100,7 +100,12 @@ public class SortTest {
         int finalIndex;
 
         a = new int[] {5,6,8,3,1,10,2,5};
+
         finalIndex = quickSort.partition(a, 0, 7);
+        for(int i=0; i<a.length;i++){
+            System.out.println(a[i]);
+
+        }
         assertEquals(3, finalIndex);
         assertTrue(a[finalIndex] == 5);
         for (int i = 0; i < finalIndex; i++) assertTrue(a[i] < a[finalIndex]);
@@ -108,6 +113,7 @@ public class SortTest {
 
         a = new int[] {5,6,8,3,1,10,2,5};
         finalIndex = quickSort.partition(a, 2, 6);
+
         assertEquals(5, finalIndex);
         assertTrue(a[finalIndex] == 8);
         for (int i = 2; i < finalIndex; i++) assertTrue(a[i] < a[finalIndex]);
