@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -7,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PeakFindingTest {
 
+        //Checks the left and right to determine if it is a peak.
     private void isValidOneDSolution(int[] arr, int sol) {
         assertTrue(
                 (sol == 0 || arr[sol] >= arr[sol - 1]) &&
@@ -66,46 +68,63 @@ public class PeakFindingTest {
     }
 
     @Test
-    public void TwoDTest1() {
+    public void TwoDTest1() { //only one peak in the bottom right
         int[][] nums = new int[100][100];
         for (int i = 0; i < nums.length; i++) {
             for (int j = 0; j < nums[0].length; j++) {
                 nums[i][j] = i + j;
             }
         }
+
+        for(int[] e:nums){
+            System.out.println(Arrays.toString(e));
+        }
+        System.out.println(Arrays.toString(PeakFinding.findTwoDPeak(nums))+" hi");
         isValidTwoDSolution(nums, PeakFinding.findTwoDPeak(nums));
     }
 
     @Test
-    public void TwoDTest2() {
+    public void TwoDTest2() { //no peak, all zeros
         int[][] nums = new int[100][100];
         for (int i = 0; i < nums.length; i++) {
             for (int j = 0; j < nums[0].length; j++) {
                 nums[i][j] = 0;
             }
         }
+
+
         isValidTwoDSolution(nums, PeakFinding.findTwoDPeak(nums));
     }
 
     @Test
-    public void TwoDTest3() {
+    public void TwoDTest3() { //center point is a peak
         int[][] nums = new int[100][100];
         for (int i = 0; i < nums.length; i++) {
             for (int j = 0; j < nums[0].length; j++) {
                 nums[i][j] = -1 * Math.abs(i - 50) - Math.abs(j - 50) + 100;
             }
         }
+//        for(int[] e:nums){
+//            System.out.println(Arrays.toString(e));
+//        }
+        //System.out.println(Arrays.toString(PeakFinding.findTwoDPeak(nums)));
         isValidTwoDSolution(nums, PeakFinding.findTwoDPeak(nums));
     }
 
     @Test
-    public void TwoDTest4() {
+    public void TwoDTest4() { //max in the top left corner
         int[][] nums = new int[100][100];
         for (int i = 0; i < nums.length; i++) {
             for (int j = 0; j < nums[0].length; j++) {
                 nums[i][j] = Math.abs(i - 50) + Math.abs(j - 50);
             }
         }
+
+//        System.out.println(Arrays.toString(PeakFinding.findTwoDPeak(nums)));
+//                for(int[] e:nums){
+//            System.out.println(Arrays.toString(e));
+//        }
+
         isValidTwoDSolution(nums, PeakFinding.findTwoDPeak(nums));
     }
 
@@ -120,6 +139,12 @@ public class PeakFindingTest {
                 {0, 0, 0, 0, 0, 0, 0},
                 {0, 0, 0, 0, 0, 0, 0}
         };
+        System.out.println(Arrays.toString(PeakFinding.findTwoDPeak(nums)));
+        System.out.println(nums[3][1]);
+        System.out.println(Arrays.toString(PeakFinding.findTwoDPeak(nums)));
+                for(int[] e:nums){
+            System.out.println(Arrays.toString(e));
+        }
         isValidTwoDSolution(nums, PeakFinding.findTwoDPeak(nums));
     }
 
@@ -132,6 +157,11 @@ public class PeakFindingTest {
                 nums[i][j] = gen.nextInt() % 1000;
             }
         }
+        System.out.println(Arrays.toString(PeakFinding.findTwoDPeak(nums)));
+                for(int[] e:nums){
+            System.out.println(Arrays.toString(e));
+        }
+        System.out.println(Arrays.toString(PeakFinding.findTwoDPeak(nums)));
         isValidTwoDSolution(nums, PeakFinding.findTwoDPeak(nums));
     }
 
