@@ -37,6 +37,13 @@ public class NQueens {
         return false;
     }
 
+    public static boolean checkVertical(char[][] board, int c){
+        for(int i = 0; i < board.length; i++){
+            if(board[i][c]=='Q') return true;
+        }
+        return false;
+    }
+
 
     /**
      * Creates a deep copy of the input array and returns it
@@ -52,7 +59,43 @@ public class NQueens {
     public static List<char[][]> nQueensSolutions(int n) {
         // TODO
         List<char[][]> answers = new ArrayList<>();
+        char[][] current = new char[n][n];
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                current[i][j] = '.';
+            }
+        }
+        int startRow = 0;
+
+        nQueensHelper(current,startRow,answers);
         return answers;
     }
+
+    public static void printBoard(char[][] board){
+        for (int r = 0; r < board.length; r++) {
+            System.out.println(new String(board[r]));
+        }
+    }
+
+
+    public static void nQueensHelper(char[][] current, int r, List<char[][]> answers){
+        //base case
+        char[][] temp = copyOf(current);
+        if(r == temp.length){
+            answers.add(temp);
+        }
+        else {
+            for (int c = 0; c < temp[0].length; c++) {
+                if (temp[r][c] != 'Q') {
+                    if ((!checkDiagonal(temp, r, c) && !checkVertical(temp, c))) {
+                        temp[r][c] = 'Q';
+                        nQueensHelper(temp,r+1, answers);
+                        temp[r][c] = '.';
+                    }
+                }
+            }
+        }
+    }
+
 
 }

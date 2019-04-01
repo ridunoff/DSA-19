@@ -74,6 +74,8 @@ public class AVLRangeTree extends BinarySearchTree<Integer> {
     // TODO: runtime = O(?)
     public List<Integer> rangeIndex(int lo, int hi) {
         // TODO
+
+
         List<Integer> l = new LinkedList<>();
         return l;
     }
@@ -84,6 +86,7 @@ public class AVLRangeTree extends BinarySearchTree<Integer> {
         // TODO
         return 0;
     }
+
 
     /**
      * Returns the balance factor of the subtree. The balance factor is defined
