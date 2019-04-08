@@ -5,11 +5,14 @@
 
 import java.util.*;
 
+
 public class Solver {
 
     public int minMoves = -1;
     private State solutionState;
     private boolean solved = false;
+    private List<Board> output = new ArrayList<>();
+
 
     /**
      * State class to make the cost calculations simple
@@ -27,7 +30,7 @@ public class Solver {
             this.moves = moves;
             this.prev = prev;
             // TODO
-            cost = 0;
+            cost = moves + board.manhattan();
         }
 
         @Override
@@ -44,7 +47,11 @@ public class Solver {
      */
     private State root(State state) {
         // TODO: Your code here
-        return null;
+        if(state.prev!=null){
+            root(state.prev);
+            output.add(state.board);
+        }
+        return state;
     }
 
     /*
@@ -54,6 +61,50 @@ public class Solver {
      */
     public Solver(Board initial) {
         // TODO: Your code here
+        HashMap<Board,Integer> visited = new HashMap<>();
+
+        Queue<State> priorityQueue = new PriorityQueue<>((o1, o2) -> {
+            if(o1.cost < o2.cost) return -1;
+            if(o1.cost > o2.cost) return 1;
+            return 0;
+        });
+
+        State next;
+
+        solutionState = new State(initial, 0 , null);
+        priorityQueue.add(solutionState);
+        //priorityQueue.();
+
+        visited.put(solutionState.board,solutionState.cost);
+
+        while(!priorityQueue.isEmpty()){
+            State curr = priorityQueue.poll();
+            if (curr.board.isGoal()) {
+                solutionState = curr;
+                solved = true;
+                minMoves = curr.moves;
+                break;
+            }
+            for(Board b : curr.board.neighbors()) {
+                if(visited.getOrDefault(b,null) == null) {
+                    next = new State(b, curr.moves + 1, curr);
+                    visited.put(b,next.cost);
+                    priorityQueue.add(next);
+                }else{
+                    next = new State(b, curr.moves + 1, curr);
+                    if(visited.get(b) > next.cost) {
+                        //System.out.println("Shouldnt happen");
+                        visited.put(b,next.cost);
+                        priorityQueue.add(next);
+                    }
+                }
+            }
+
+        }
+
+
+
+
     }
 
     /*
@@ -62,15 +113,19 @@ public class Solver {
      */
     public boolean isSolvable() {
         // TODO: Your code here
-        return false;
+        return solutionState.board.solvable();
     }
+
 
     /*
      * Return the sequence of boards in a shortest solution, null if unsolvable
      */
     public Iterable<Board> solution() {
         // TODO: Your code here
-        return null;
+        if(!isSolvable()) return null;
+
+        root(solutionState);
+        return output;
     }
 
     public State find(Iterable<State> iter, Board b) {
